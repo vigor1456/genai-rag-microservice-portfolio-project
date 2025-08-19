@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: genai-rag
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: genai-rag
+  template:
+    metadata:
+      labels:
+        app: genai-rag
+    spec:
+      containers:
+        - name: app
+          image: yourrepo/genai-rag:latest
+          ports:
+            - containerPort: 8000
+          env:
+            - name: API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: genai-secrets
+                  key: API_KEY
+            - name: LLM_PROVIDER
+              value: "dummy"
+            - name: EMBEDDINGS_PROVIDER
+              value: "hash"
+            - name: INDEX_DIR
+              value: "/data/index"
+            - name: TOP_K
+              value: "4"
+          volumeMounts:
+            - name: data
+              mountPath: /data
+      volumes:
+        - name: data
+          emptyDir: {}

@@ -1,0 +1,1 @@
+# InfoSec Policy\nPasswords >=12 chars; 2FA required for remote access; confidential data not on personal devices.

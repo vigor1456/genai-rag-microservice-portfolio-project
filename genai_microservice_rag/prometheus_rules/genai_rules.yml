@@ -1,0 +1,31 @@
+groups:
+  - name: genai-alerts
+    rules:
+      - alert: ServiceDown
+        expr: up{job="genai_microservice"} == 0
+        for: 5m
+        labels: {severity: critical}
+        annotations:
+          summary: "GenAI microservice appears down"
+          description: "Target 'app:8000' for job genai_microservice is not responding for 5m."
+      - alert: HighErrorRate
+        expr: (sum(rate(errors_total[5m])) / clamp_min(sum(rate(requests_total[5m])), 1e-9)) > 0.05
+        for: 10m
+        labels: {severity: warning}
+        annotations:
+          summary: "High error rate (>5%)"
+          description: "Error rate exceeded 5% over the last 10 minutes."
+      - alert: HighLatencyP95
+        expr: histogram_quantile(0.95, sum(rate(request_latency_seconds_bucket[5m])) by (le)) > 2
+        for: 10m
+        labels: {severity: warning}
+        annotations:
+          summary: "High latency p95 (>2s)"
+          description: "p95 latency above 2 seconds for 10 minutes."
+      - alert: NoTraffic
+        expr: sum(rate(requests_total[10m])) == 0
+        for: 30m
+        labels: {severity: info}
+        annotations:
+          summary: "No traffic observed"
+          description: "No requests for 30 minutes; check clients or routing."
