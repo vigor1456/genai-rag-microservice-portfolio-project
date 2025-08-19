@@ -3,11 +3,11 @@
 A **demo enterprise-style microservice** that combines Generative AI with modern observability practices.  
 The goal: practice building and deploying a realistic system that goes beyond “toy notebooks,” with monitoring, alerting, and containerized deployment.  
 
-⚠️ **Note:** This is a **learning project**, not production-ready software. It’s meant to show how enterprise systems *could* be structured.  
+**Note:** This is a **learning project**, not production-ready software. It’s meant to show how enterprise systems *could* be structured.  
 
 ---
 
-## 🚀 Features
+## Features
 - **GenAI Retrieval-Augmented Generation (RAG)**
   - Ingests documents into a vector store (FAISS)  
   - Query interface via FastAPI (`/query`)  
